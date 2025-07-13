@@ -2,7 +2,7 @@ This is a placeholder for the German resume (Lebenslauf).
 
 Please replace this file with your actual German resume PDF:
 - File name: Grasmit_Lebenslauf.pdf
-- Location: /home/grasmit/project/portfolio/resumes/
+- Location: portfolio/resumes/
 
 Instructions:
 1. Create or export your German resume/Lebenslauf as a PDF

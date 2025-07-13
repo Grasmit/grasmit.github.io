@@ -2,7 +2,7 @@ This is a placeholder for the English resume.
 
 Please replace this file with your actual English resume PDF:
 - File name: Grasmit_Resume.pdf
-- Location: /home/grasmit/project/portfolio/resumes/
+- Location: portfolio/resumes/
 
 Instructions:
 1. Create or export your English resume as a PDF
