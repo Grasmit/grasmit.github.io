@@ -2,6 +2,22 @@
     --text-color: #1a1c20;
     --link-color: #4a76ee;
     --background-color: #eeeff1;
+    --card-background: #ffffff;
+    --border-color: #d3d3d3;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --shadow-heavy: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] {
+    --text-color: #e2e8f0;
+    --link-color: #6b8bff;
+    --background-color: #1a202c;
+    --card-background: #2d3748;
+    --border-color: #4a5568;
+    --shadow-light: rgba(0, 0, 0, 0.3);
+    --shadow-medium: rgba(0, 0, 0, 0.4);
+    --shadow-heavy: rgba(0, 0, 0, 0.6);
 }
 
 * {
@@ -17,6 +33,8 @@ html {
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -48,14 +66,275 @@ nav .right a {
 }
 
 nav .right a:last-child {
-    color: var(--background-color);
+    color: var(--card-background);
     background-color: var(--text-color);
     padding : 5px 15px;
     border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 nav .right a span {
     margin-left: 5px;
+}
+
+/* Floating Settings Button */
+.floating-settings {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.settings-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--link-color), #6b8bff);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 8px 25px rgba(74, 118, 238, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.settings-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.settings-toggle:hover::before {
+    transform: translateX(100%);
+}
+
+.settings-toggle:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(74, 118, 238, 0.5);
+}
+
+.settings-toggle.active {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.settings-panel {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    background: var(--card-background);
+    border-radius: 16px;
+    padding: 20px;
+    min-width: 250px;
+    box-shadow: 0 16px 48px var(--shadow-heavy);
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.settings-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.settings-panel::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+}
+
+.settings-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+
+.language-options {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.lang-btn {
+    flex: 1;
+    background: none;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.lang-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(74, 118, 238, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.lang-btn:hover::before {
+    left: 100%;
+}
+
+.lang-btn:hover {
+    border-color: var(--link-color);
+    background-color: rgba(74, 118, 238, 0.1);
+    transform: scale(1.05);
+}
+
+.lang-btn.active {
+    background-color: var(--link-color);
+    color: white;
+    border-color: var(--link-color);
+    box-shadow: 0 4px 12px rgba(74, 118, 238, 0.3);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--background-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(74, 118, 238, 0.05);
+    border-color: var(--link-color);
+}
+
+.theme-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-icon {
+    font-size: 18px;
+    color: var(--link-color);
+}
+
+.theme-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--link-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Update existing styles to use CSS variables */
+.skills-section .cells .cell {
+    border: 1.5px solid var(--border-color);
+    background-color: var(--card-background);
+}
+
+.timeline-content {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px var(--shadow-medium);
+}
+
+.skill-tag {
+    background-color: var(--background-color);
+    border: 1.5px solid var(--border-color);
 }
 
 /** SECTION 1: HERO */
@@ -288,11 +567,11 @@ nav .right a span {
 }
 
 .timeline-content {
-    background-color: white;
+    background-color: var(--card-background);
     padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(74, 118, 238, 0.1);
+    box-shadow: 0 8px 32px var(--shadow-medium);
+    border: 1px solid var(--border-color);
     width: calc(50% - 40px);
     position: relative;
     transition: all 0.3s ease;
@@ -310,7 +589,7 @@ nav .right a span {
 
 .timeline-content:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 16px 48px var(--shadow-heavy);
 }
 
 .timeline-content::after {
@@ -324,13 +603,13 @@ nav .right a span {
 
 .timeline-item:nth-child(odd) .timeline-content::after {
     right: -24px;
-    border-left-color: white;
+    border-left-color: var(--card-background);
     transform: translateY(-50%);
 }
 
 .timeline-item:nth-child(even) .timeline-content::after {
     left: -24px;
-    border-right-color: white;
+    border-right-color: var(--card-background);
     transform: translateY(-50%);
 }
 
@@ -372,7 +651,7 @@ nav .right a span {
     border-radius: 20px;
     font-size: 12px;
     font-weight: 500;
-    border: 1.5px solid #d3d3d3;
+    border: 1.5px solid var(--border-color);
     transition: all 0.2s ease;
 }
 
@@ -476,12 +755,69 @@ nav .right a span {
     z-index: 1;
 }
 
+/* Dark theme specific overrides for timeline content */
+[data-theme="dark"] .timeline-content {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .timeline-content:hover {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .timeline-content::after {
+    border-left-color: var(--card-background);
+    border-right-color: var(--card-background);
+}
+
+[data-theme="dark"] .timeline-item.milestone .timeline-content {
+    background: linear-gradient(135deg, #3a2626 0%, var(--card-background) 100%);
+    border-left: 4px solid #ff6b6b;
+    border-right: 4px solid #ff6b6b;
+}
+
+[data-theme="dark"] .timeline-item.milestone:nth-child(odd) .timeline-content {
+    border-left: 4px solid #ff6b6b;
+    border-right: none;
+}
+
+[data-theme="dark"] .timeline-item.milestone:nth-child(even) .timeline-content {
+    border-right: 4px solid #ff6b6b;
+    border-left: none;
+}
+
+[data-theme="dark"] .timeline-item.milestone .timeline-content::before {
+    background: var(--card-background);
+}
+
+[data-theme="dark"] .timeline-item.current .timeline-content {
+    background: linear-gradient(135deg, #1f3a26 0%, var(--card-background) 100%);
+    border-left: 4px solid #28a745;
+    border-right: 4px solid #28a745;
+}
+
+[data-theme="dark"] .timeline-item.current:nth-child(odd) .timeline-content {
+    border-left: 4px solid #28a745;
+    border-right: none;
+}
+
+[data-theme="dark"] .timeline-item.current:nth-child(even) .timeline-content {
+    border-right: 4px solid #28a745;
+    border-left: none;
+}
+
+[data-theme="dark"] .timeline-item.current .timeline-content::before {
+    background: var(--card-background);
+}
+
 /** SECTION 4: Contact */
 .contact-section {
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    background-color: var(--background-color);
     padding: 100px 50px;
     text-align: center;
-    color: white;
+    color: var(--text-color);
+    position: relative;
 }
 
 .contact-content h3 {
@@ -497,7 +833,7 @@ nav .right a span {
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 60px;
-    color: white;
+    color: var(--text-color);
 }
 
 .contact-links {
@@ -505,12 +841,12 @@ nav .right a span {
     justify-content: center;
     align-items: center;
     gap: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--card-background);
     padding: 30px 60px;
     border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--border-color);
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px var(--shadow-heavy);
     max-width: 800px;
     margin: 0 auto;
 }
@@ -519,7 +855,7 @@ nav .right a span {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: white;
+    color: var(--text-color);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
@@ -541,11 +877,18 @@ nav .right a span {
 
 /** Footer */
 .footer {
-    background-color: #1a202c;
-    color: #a0aec0;
+    background-color: var(--card-background);
+    color: var(--text-color);
     text-align: center;
     padding: 40px 50px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color);
+    opacity: 0.8;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .footer {
+    background-color: #1a202c;
+    color: #a0aec0;
 }
 
 .footer-content p {
@@ -555,10 +898,31 @@ nav .right a span {
 
 .footer-content p:first-child {
     font-weight: 600;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer-content p:first-child {
     color: white;
 }
 
 @media (max-width: 850px) {
+    /** Floating Settings */
+    .floating-settings {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .settings-toggle {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+    
+    .settings-panel {
+        min-width: 220px;
+        padding: 18px;
+    }
+    
     /** SECTION 1: HERO */
     .hero-section .text h2 {
         font-size: 35px;
@@ -733,7 +1097,7 @@ nav .right a span {
     }
 
     nav .right a {
-        font: 22px;
+        font-size: 22px;
     }
 
     nav .right a:last-child {
@@ -744,6 +1108,24 @@ nav .right a span {
 
     nav .right a span {
         display: none;
+    }
+
+    /** Floating Settings */
+    .floating-settings {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .settings-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .settings-panel {
+        min-width: 200px;
+        padding: 16px;
+        bottom: 70px;
     }
 
     /** SECTION 1: HERO */
@@ -835,45 +1217,12 @@ nav .right a span {
         display: none;
     }
     
-    .timeline-content h3 {
-        font-size: 20px;
-    }
-    
-    .timeline-content h4 {
-        font-size: 16px;
-    }
-    
-    .timeline-content p {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-    
     .timeline-item.milestone .timeline-content {
         border-left: 4px solid #ff6b6b !important;
     }
     
     .timeline-item.current .timeline-content {
         border-left: 4px solid #28a745 !important;
-    }
-    
-    .timeline-item.milestone .timeline-content h3 {
-        font-size: 21px;
-    }
-    
-    .timeline-item.milestone .timeline-content p {
-        font-size: 15px;
-    }
-    
-    .timeline-item.milestone .timeline-content::before {
-        font-size: 18px;
-        padding: 6px;
-        top: -8px;
-        right: 15px;
-    }
-    
-    .skill-tag {
-        font-size: 11px;
-        padding: 5px 10px;
     }
     
     /** SECTION 4: Contact */
@@ -904,4 +1253,23 @@ nav .right a span {
     .footer {
         padding: 30px 20px;
     }
+}
+
+/* Add smooth transitions for text changes */
+[data-translate] {
+    transition: opacity 0.2s ease;
+}
+
+.language-switching [data-translate] {
+    opacity: 0.7;
+}
+
+/* Smooth transitions for theme changes */
+*, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Prevent transition on initial page load */
+.preload *, .preload *::before, .preload *::after {
+    transition: none !important;
 }
